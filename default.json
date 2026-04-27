@@ -13,7 +13,7 @@
   "rebaseWhen": "behind-base-branch",
   "automergeType": "pr",
   "automergeStrategy": "squash",
-  "platformAutomerge": true,
+  "platformAutomerge": false,
   "packageRules": [
     {
       "description": "Metacore platform (npm) — auto-merge ALL update types so consumer apps stay in lockstep with the kernel/SDK release train.",
@@ -23,7 +23,7 @@
       "groupSlug": "metacore-platform",
       "matchUpdateTypes": ["patch", "minor", "major"],
       "automerge": true,
-      "platformAutomerge": true
+      "platformAutomerge": false
     },
     {
       "description": "Metacore kernel (Go) — auto-merge ALL update types.",
@@ -33,33 +33,33 @@
       "groupSlug": "metacore-platform",
       "matchUpdateTypes": ["patch", "minor", "major"],
       "automerge": true,
-      "platformAutomerge": true
+      "platformAutomerge": false
     },
     {
       "description": "Generic ecosystem updates — auto-merge minor and patch.",
       "matchManagers": ["npm", "gomod"],
       "matchUpdateTypes": ["patch", "minor"],
       "automerge": true,
-      "platformAutomerge": true
+      "platformAutomerge": false
     },
     {
       "description": "React + TanStack + Radix grouped to land together (avoid peerDep clashes).",
       "matchPackagePatterns": ["^react", "^@tanstack/", "^@radix-ui/"],
       "groupName": "react ecosystem",
       "automerge": true,
-      "platformAutomerge": true
+      "platformAutomerge": false
     },
     {
       "description": "Fiber + GORM grouped (Go web/data stack).",
       "matchPackagePatterns": ["^github.com/gofiber/", "^gorm.io/"],
       "groupName": "fiber + gorm",
       "automerge": true,
-      "platformAutomerge": true
+      "platformAutomerge": false
     }
   ],
   "vulnerabilityAlerts": {
     "labels": ["security"],
     "automerge": true,
-    "platformAutomerge": true
+    "platformAutomerge": false
   }
 }

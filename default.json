@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Shared Renovate preset for the Asteby + Metacore ecosystem. Singularity model: the platform team publishes, every consumer app inherits — automatically, in cascade.",
+  "description": "Shared Renovate preset for the Asteby + Metacore ecosystem. Singularity model: every update auto-merges, regardless of severity, manager or package. The platform team publishes, every consumer app inherits — automatically, in cascade.",
   "extends": [
     "config:recommended",
     ":semanticCommits",
@@ -16,50 +16,44 @@
   "platformAutomerge": false,
   "packageRules": [
     {
-      "description": "Metacore platform (npm) — auto-merge ALL update types so consumer apps stay in lockstep with the kernel/SDK release train.",
+      "description": "Universal singularity — auto-merge EVERY update type for EVERY package across npm, gomod, dockerfile, github-actions and lockfiles.",
+      "matchManagers": ["npm", "gomod", "dockerfile", "docker-compose", "github-actions", "regex"],
+      "matchUpdateTypes": ["patch", "minor", "major", "pin", "digest", "lockFileMaintenance", "rollback", "bump", "replacement"],
+      "automerge": true,
+      "platformAutomerge": false
+    },
+    {
+      "description": "Metacore platform (npm) grouped into one cascade PR.",
       "matchManagers": ["npm"],
       "matchPackagePatterns": ["^@asteby/metacore-"],
       "groupName": "metacore platform",
-      "groupSlug": "metacore-platform",
-      "matchUpdateTypes": ["patch", "minor", "major"],
-      "automerge": true,
-      "platformAutomerge": false
+      "groupSlug": "metacore-platform"
     },
     {
-      "description": "Metacore kernel (Go) — auto-merge ALL update types.",
+      "description": "Metacore kernel (Go) grouped.",
       "matchManagers": ["gomod"],
       "matchPackagePatterns": ["^github.com/asteby/metacore-"],
       "groupName": "metacore platform",
-      "groupSlug": "metacore-platform",
-      "matchUpdateTypes": ["patch", "minor", "major"],
-      "automerge": true,
-      "platformAutomerge": false
-    },
-    {
-      "description": "Generic ecosystem updates — auto-merge minor and patch.",
-      "matchManagers": ["npm", "gomod"],
-      "matchUpdateTypes": ["patch", "minor"],
-      "automerge": true,
-      "platformAutomerge": false
+      "groupSlug": "metacore-platform"
     },
     {
       "description": "React + TanStack + Radix grouped to land together (avoid peerDep clashes).",
       "matchPackagePatterns": ["^react", "^@tanstack/", "^@radix-ui/"],
-      "groupName": "react ecosystem",
-      "automerge": true,
-      "platformAutomerge": false
+      "groupName": "react ecosystem"
     },
     {
       "description": "Fiber + GORM grouped (Go web/data stack).",
       "matchPackagePatterns": ["^github.com/gofiber/", "^gorm.io/"],
-      "groupName": "fiber + gorm",
-      "automerge": true,
-      "platformAutomerge": false
+      "groupName": "fiber + gorm"
     }
   ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "schedule": ["at any time"]
+  },
   "vulnerabilityAlerts": {
     "labels": ["security"],
-    "automerge": true,
-    "platformAutomerge": false
+    "automerge": true
   }
 }

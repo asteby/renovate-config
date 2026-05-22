@@ -11,6 +11,9 @@
   "prConcurrentLimit": 0,
   "labels": ["dependencies"],
   "rebaseWhen": "behind-base-branch",
+  "constraints": {
+    "pnpm": "10.28.2"
+  },
   "automergeType": "pr",
   "automergeStrategy": "squash",
   "platformAutomerge": false,

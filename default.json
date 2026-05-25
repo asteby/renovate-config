@@ -1,14 +1,15 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Shared Renovate preset for the Asteby + Metacore ecosystem. Singularity model: every update auto-merges, regardless of severity, manager or package. The platform team publishes, every consumer app inherits — automatically, in cascade.",
+  "description": "Shared Renovate preset for the Asteby + Metacore ecosystem. Singularity model: every update auto-merges, regardless of severity, manager or package. The platform team publishes, every consumer app inherits — automatically, in cascade. Updates are scheduled off-peak (nights + weekends, America/Mexico_City) with low PR limits so the single shared self-hosted CI runner is never flooded and human deploys win the queue during work hours.",
   "extends": [
     "config:recommended",
     ":semanticCommits",
     ":dependencyDashboard"
   ],
-  "schedule": ["at any time"],
-  "prHourlyLimit": 0,
-  "prConcurrentLimit": 0,
+  "timezone": "America/Mexico_City",
+  "schedule": ["after 10pm and before 6am every weekday", "every weekend"],
+  "prHourlyLimit": 2,
+  "prConcurrentLimit": 3,
   "labels": ["dependencies"],
   "rebaseWhen": "behind-base-branch",
   "constraints": {
@@ -53,7 +54,7 @@
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true,
-    "schedule": ["at any time"]
+    "schedule": ["before 6am on monday"]
   },
   "vulnerabilityAlerts": {
     "labels": ["security"],

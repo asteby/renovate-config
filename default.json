@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Shared Renovate preset for the Asteby + Metacore ecosystem. Singularity model: every update auto-merges, regardless of severity, manager or package. The platform team publishes, every consumer app inherits — automatically, in cascade. Updates are scheduled off-peak (nights + weekends, America/Mexico_City) with low PR limits so the single shared self-hosted CI runner is never flooded and human deploys win the queue during work hours.",
+  "description": "Shared Renovate preset for the Asteby + Metacore ecosystem. Singularity model: every update auto-merges, regardless of severity, manager or package. The platform team publishes, every consumer app inherits — automatically, in cascade. Updates are scheduled off-peak (nights + weekends, America/Mexico_City) with low PR limits so the single shared self-hosted CI runner is never flooded and human deploys win the queue during work hours. updateNotScheduled:false + rebaseWhen:conflicted keep Renovate fully quiet during the day — it no longer rebases open PRs when main advances (that flooded the runner on every human merge); it only rebases on a real conflict, off-peak.",
   "extends": [
     "config:recommended",
     ":semanticCommits",
@@ -11,7 +11,8 @@
   "prHourlyLimit": 2,
   "prConcurrentLimit": 3,
   "labels": ["dependencies"],
-  "rebaseWhen": "behind-base-branch",
+  "updateNotScheduled": false,
+  "rebaseWhen": "conflicted",
   "constraints": {
     "pnpm": "10.28.2"
   },

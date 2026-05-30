@@ -1,16 +1,25 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Shared Renovate preset for the Asteby + Metacore ecosystem. Singularity model: every update auto-merges, regardless of severity, manager or package. The platform team publishes, every consumer app inherits — automatically, in cascade. Updates are scheduled off-peak (nights + weekends, America/Mexico_City) with low PR limits so the single shared self-hosted CI runner is never flooded and human deploys win the queue during work hours. updateNotScheduled:false + rebaseWhen:conflicted keep Renovate fully quiet during the day — it no longer rebases open PRs when main advances (that flooded the runner on every human merge); it only rebases on a real conflict, off-peak.",
+  "description": "Shared Renovate preset for the Asteby + Metacore ecosystem. Singularity model: every update auto-merges, regardless of severity, manager or package. The platform team publishes, every consumer app inherits \u2014 automatically, in cascade. Updates are scheduled off-peak (nights + weekends, America/Mexico_City) with low PR limits so the single shared self-hosted CI runner is never flooded and human deploys win the queue during work hours. updateNotScheduled:false + rebaseWhen:conflicted keep Renovate fully quiet during the day \u2014 it no longer rebases open PRs when main advances (that flooded the runner on every human merge); it only rebases on a real conflict, off-peak.",
   "extends": [
     "config:recommended",
     ":semanticCommits",
     ":dependencyDashboard"
   ],
   "timezone": "America/Mexico_City",
-  "schedule": ["after 10pm and before 6am every weekday", "every weekend"],
+  "schedule": [
+    "after 10pm and before 6am every weekday",
+    "every weekend"
+  ],
+  "automergeSchedule": [
+    "after 10pm and before 6am every weekday",
+    "every weekend"
+  ],
   "prHourlyLimit": 2,
   "prConcurrentLimit": 3,
-  "labels": ["dependencies"],
+  "labels": [
+    "dependencies"
+  ],
   "updateNotScheduled": false,
   "rebaseWhen": "conflicted",
   "constraints": {
@@ -21,44 +30,80 @@
   "platformAutomerge": false,
   "packageRules": [
     {
-      "description": "Universal singularity — auto-merge EVERY update type for EVERY package across npm, gomod, dockerfile, github-actions and lockfiles.",
-      "matchManagers": ["npm", "gomod", "dockerfile", "docker-compose", "github-actions", "regex"],
-      "matchUpdateTypes": ["patch", "minor", "major", "pin", "digest", "lockFileMaintenance", "rollback", "bump", "replacement"],
+      "description": "Universal singularity \u2014 auto-merge EVERY update type for EVERY package across npm, gomod, dockerfile, github-actions and lockfiles.",
+      "matchManagers": [
+        "npm",
+        "gomod",
+        "dockerfile",
+        "docker-compose",
+        "github-actions",
+        "regex"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor",
+        "major",
+        "pin",
+        "digest",
+        "lockFileMaintenance",
+        "rollback",
+        "bump",
+        "replacement"
+      ],
       "automerge": true,
       "platformAutomerge": false
     },
     {
       "description": "Metacore platform (npm) grouped into one cascade PR.",
-      "matchManagers": ["npm"],
-      "matchPackagePatterns": ["^@asteby/metacore-"],
+      "matchManagers": [
+        "npm"
+      ],
+      "matchPackagePatterns": [
+        "^@asteby/metacore-"
+      ],
       "groupName": "metacore platform",
       "groupSlug": "metacore-platform"
     },
     {
       "description": "Metacore kernel (Go) grouped.",
-      "matchManagers": ["gomod"],
-      "matchPackagePatterns": ["^github.com/asteby/metacore-"],
+      "matchManagers": [
+        "gomod"
+      ],
+      "matchPackagePatterns": [
+        "^github.com/asteby/metacore-"
+      ],
       "groupName": "metacore platform",
       "groupSlug": "metacore-platform"
     },
     {
       "description": "React + TanStack + Radix grouped to land together (avoid peerDep clashes).",
-      "matchPackagePatterns": ["^react", "^@tanstack/", "^@radix-ui/"],
+      "matchPackagePatterns": [
+        "^react",
+        "^@tanstack/",
+        "^@radix-ui/"
+      ],
       "groupName": "react ecosystem"
     },
     {
       "description": "Fiber + GORM grouped (Go web/data stack).",
-      "matchPackagePatterns": ["^github.com/gofiber/", "^gorm.io/"],
+      "matchPackagePatterns": [
+        "^github.com/gofiber/",
+        "^gorm.io/"
+      ],
       "groupName": "fiber + gorm"
     }
   ],
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true,
-    "schedule": ["before 6am on monday"]
+    "schedule": [
+      "before 6am on monday"
+    ]
   },
   "vulnerabilityAlerts": {
-    "labels": ["security"],
+    "labels": [
+      "security"
+    ],
     "automerge": true
   }
 }
